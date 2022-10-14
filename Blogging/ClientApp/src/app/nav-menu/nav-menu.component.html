@@ -1,0 +1,46 @@
+
+<header>
+  <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light customHead border-bottom box-shadow mb-3">
+    <div class="container">
+      <button class="navbar-toggler"
+              type="button"
+              data-toggle="collapse"
+              data-target=".navbar-collapse"
+              aria-label="Toggle navigation"
+              [attr.aria-expanded]="isExpanded"
+              (click)="toggle()">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="navbar-collapse collapse d-sm-inline-flex justify-content-start"
+           [ngClass]="{ show: isExpanded }">
+        <ul class="navbar-nav flex-grow">
+          <li class="nav-item customBox" id="onhover"
+             routerLinkActive="class1"
+              [routerLinkActiveOptions]="{ exact: true }">
+
+            <a class="nav-link text-dark " [routerLink]="['/dashboard']">Playground</a>
+          </li>
+          <li class="nav-item customBox" id="onhover" routerLinkActive="class1">
+            <a class="nav-link text-dark" [routerLink]="['/followers']">Followers ({{Followerscount}})</a>
+          </li>
+          <li class="nav-item customBox" id="onhover" routerLinkActive="class1">
+            <a class="nav-link text-dark" [routerLink]="['/following']">Following ({{followingcount}})</a>
+          </li>
+          <li class="nav-item customBox" id="onhover" routerLinkActive="class1">
+            <a class="nav-link text-dark" [routerLink]="['/search']">Search</a>
+          </li>
+          <li class="nav-item welcome customBox"  style="margin-left: 25vw;" >
+            <a class="nav-link text-dark">Welcome {{TweetUserName}}</a>
+          </li>
+
+          <li class="nav-item customBox " id="onhover" style="margin-left:20px;" [routerLinkActive]="['link-active']">
+            <a class="nav-link text-dark" [routerLink]="['']">Logout</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+<div>
+  <router-outlet></router-outlet>
+</div>

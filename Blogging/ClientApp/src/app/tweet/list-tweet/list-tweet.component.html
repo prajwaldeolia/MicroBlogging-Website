@@ -1,0 +1,99 @@
+
+
+<!--create section-->
+<div class="py-2 box-shadow">
+  <div class="container text-center mb-4" style="width:max-content">
+    <popover-content #myPopover
+                     title="Compose New Tweet"
+                     placement="bottom"
+                     [animation]="true"
+                     [closeOnClickOutside]="true"
+                     [closeOnMouseOutside]="false">
+      <form novalidate #form="ngForm" (submit)="onSubmit(form)">
+        <!--<input type="hidden" name= "tweetid" [(value)]= "service.fromData.id " />-->
+
+        <div class="form-group">
+          <label for="tweet">Enter your Thoughts here</label>
+          <br />
+          <textarea id="tweet" name=" tweet" #tweet="ngModel" [(ngModel)]="service.formData.tweet" rows="10" cols="35"
+                    required maxlength="240"></textarea>
+          <span *ngIf="tweet.invalid && tweet.touched" style="color:red;">Required</span>
+        </div>
+        <input type="hidden" name="username" #username="ngModel" [(ngModel)]="service.formData.username" />
+        <input type="hidden" name="ImgPath" #Imgpath="ngModel" [(ngModel)]="service.formData.Imgpath" />
+        <input type="hidden" name="Userid" #Userid ="ngModel" [(ngModel)]="service.formData.Userid" />
+        <input type="hidden" name="Edited" #Edited="ngModel" [(ngModel)]="service.formData.Edited" />
+        <input type="hidden" name="Date" #Edited="ngModel" [(ngModel)]="service.formData.Date" />
+        <div class="form-group">
+          <button class="btn btn-primary " [disabled]="form.invalid" type="submit">Done</button>
+        </div>
+
+      </form>
+    </popover-content>
+
+    <button [popoverOnHover]="false" [popover]="myPopover" class="btn btn-primary">Compose New Tweet</button>
+  </div>
+  <h2 class=" text-center"> Recent tweets</h2>
+</div>
+<!--create section end-->
+<div class="container ">
+  <div class="row" id="onhover" style=" border:solid; border-radius:10px; margin-bottom:20px;" *ngFor="let pd of  Tweetdata | orderBy : order : true ">
+    <div class="col col-sm-2 text-center" style="border-right: solid 2px; padding: 10px; max-width: 20%">
+
+      <img src="{{pd.imgPath}}" alt="Userimage" width="80" height="100" />
+      <p style="font-weight:bold">
+        {{pd.username}}
+      </p>
+    </div>
+    <div class="col text-center" style="margin-top:40px; font-size:larger">
+      <p> {{pd.tweet}} </p>
+      <br />
+      <div style="margin: 0; margin-left: 30vw; padding: 0;">
+        <p style="font-size: small; color: blue; font-style: italic; display: inline"> Tweet-date:{{pd.date | date:'dd-MM-yyyy'}} </p>
+        <ng-template [ngIf]="(value)!=(pd.edited)">
+          <p style="font-size:small; color:blue; font-style:italic; display:inline"> | (Edited)</p>
+        </ng-template>
+      </div>
+
+
+      <input type="hidden" name="tweetid" #tweetid id="setid" value="{{pd.id}} " />
+
+    </div>
+    <ng-template [ngIf]="(Action)==(pd.userid)">
+      <button  (click)="deleteTweet(tweetid.value)" style="margin-right:5px;  margin-top:50px;height:50px ;width:40px;">
+        <i class="fa fa-trash text-danger"></i>
+      </button>
+      </ng-template>
+      <!--update-section start-->
+      <popover-content #myUpdate
+                       title="Update your Tweet"
+                       placement="left"
+                       [animation]="true"
+                       [closeOnClickOutside]="true"
+                       [closeOnMouseOutside]="false">
+        <form [formGroup]="editTweet" (ngSubmit)="updateTweet()">
+          <!--<input type="hidden" name= "tweetid" [(value)]= "service.fromData.id " />-->
+
+          <div class="form-group">
+            <label for="tweet">Enter your Thoughts here</label>
+            <br />
+            <textarea id="tweet" formControlName="tweet" rows="10" cols="35"
+                      required maxlength="240"></textarea>
+            <span *ngIf=" tweet && tweet.invalid && tweet.touched" style="color:red;">Required</span>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-primary " [disabled]="editTweet.invalid" type="submit">Done</button>
+          </div>
+
+        </form>
+      </popover-content>
+      <!--update-section end-->
+
+      <ng-template [ngIf]="(Action)==(pd.userid)">
+        <button [popoverOnHover]="false" style="margin-top:50px; margin-right:10px;height:50px ;width:40px;" (click)="onClickUpdate(tweetid.value)" [popover]="myUpdate">
+          <i class="fa fa-edit" style="font-size: 25px; color: blue"></i>
+        </button>
+      </ng-template>
+  </div>
+</div>
+  

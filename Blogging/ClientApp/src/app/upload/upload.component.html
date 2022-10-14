@@ -1,0 +1,18 @@
+ <div class="row" style="margin-bottom:15px;">
+  <div>
+    <div >
+    <img src="{{url}}" *ngIf="img" height="100" />
+      </div>
+    <br />
+    <input type="file" accept="image/jpeg, image/png" #file placeholder="Choose file" (change)="onselectFile($event);">
+    <button type="button" class="btn btn-success" (click)="uploadFile(file.files);">Upload Profile Photo</button>
+  </div>
+  <div class="col-md-4">
+    <span class="upload" *ngIf="progress > 0">
+      {{progress}}%
+    </span>
+    <span class="upload" *ngIf="message">
+      {{message}}
+    </span>
+  </div>
+</div>

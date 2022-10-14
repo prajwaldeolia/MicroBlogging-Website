@@ -1,0 +1,108 @@
+<app-nav-menu></app-nav-menu>
+<div class="row">
+  <div class="form-group col-md-6" style="margin-left:80px; margin-right:20px;">
+
+    <input type="text" class="form-control" placeholder="Enter Anything to Search" #searched [(ngModel)]="searchedKeyword">
+  </div>
+  <div class="col-md-3" style="margin-left:30px; margin-bottom:20px;">
+    <button (click)="searchResult(searched.value);" class="btn btn-primary"> Search</button>
+  </div>
+<div class="container"  *ngIf="show||show2">
+<div class="btn btn-primary" [ngClass]="{'primary':show}"(click)="change()" style=" margin:20px;">
+  People 
+</div>
+  <div  (click)="change2()" class="btn btn-primary" [ngClass]="{'primary':show2}">
+    Post
+  </div>
+ </div>
+</div>
+
+
+
+
+<div *ngIf="show" class="container my-3">
+<div class=" my-2"  style=" display:inline-block; max-width: 20% ;margin-right:10%" *ngFor="let item of Userdata | filterpipe:searchUser:['firstName', 'lastName','fullname']; let i = index ;" >
+  <div class="text-center" >
+    <img src="{{item.imgPath}}" alt="Userimage" width="80" height="100" />
+    <p style=" font-weight:bold">
+      {{item.firstName}} {{item.lastName}}
+    </p>
+  </div>
+  <div>
+    <button *ngIf="showFollow(item.id);then ifBlock else elseBlock"></button>
+    <ng-template #ifBlock >
+      <button class="text-center" (click)="setFollowing((item.id)); setFollower((item.id));" style="margin-left:10%">Follow</button>
+    </ng-template>
+    <ng-template #elseBlock>
+      <button class="text-center" (click)="OnUnfollow((item.id)); " style="margin-left:10%">UnFollow</button>
+    </ng-template>
+  
+    </div>
+  </div>
+
+
+
+  </div>
+<div *ngIf="show2" class="container my-3">
+  <div class="container ">
+    <div class="row" id="onhover" style=" border:solid; border-radius:10px; margin-bottom:20px;" *ngFor="let pd of servicetweet.list | orderBy : order : true | filterpipe:searchTweet:['tweet']; let i = index">
+      <div class="col col-sm-2 text-center" style="border-right: solid 2px; padding: 10px; max-width: 20%">
+
+        <img src="{{pd.imgPath}}" alt="Userimage" width="80" height="100" />
+        <p style="font-weight:bold">
+          {{pd.username}} 
+       
+        </p>
+      </div>
+      <div class="col text-center" style="margin-top:40px; font-size:larger">
+        <p> {{pd.tweet}}</p>
+        <br />
+        <div style="margin: 0; margin-left: 30vw; padding: 0;">
+          <p style="font-size: small; color: blue; font-style: italic; display: inline"> Tweet-date:{{pd.date | date:'dd-MM-yyyy'}} </p>
+          <ng-template [ngIf]="(value)!=(pd.edited)">
+            <p style="font-size:small; color:blue; font-style:italic; display:inline"> | (Edited)</p>
+          </ng-template>
+        </div>
+
+        <input type="hidden" name="tweetid" #tweetid id="setid" value="{{pd.id}} " />
+
+      </div>
+      <ng-template [ngIf]="(Action)==(pd.userid)">
+        <button (click)="deleteTweet(tweetid.value)" style="margin-right:5px;  margin-top:50px;height:50px ;width:40px;">
+          <i class="fa fa-trash text-danger"></i>
+        </button>
+      </ng-template>
+      <!--update-section start-->
+      <popover-content #myUpdate
+                       title="Update your Tweet"
+                       placement="left"
+                       [animation]="true"
+                       [closeOnClickOutside]="true"
+                       [closeOnMouseOutside]="false">
+        <form [formGroup]="editTweet" (ngSubmit)="updateTweet()">
+
+          <div class="form-group">
+            <label for="tweet">Enter your Thoughts here</label>
+            <br />
+            <textarea id="tweet" formControlName="tweet" rows="10" cols="35"
+                      required maxlength="240"></textarea>
+            <span *ngIf=" tweet && tweet.invalid && tweet.touched" style="color:red;">Required</span>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-primary " [disabled]="editTweet.invalid" type="submit">Done</button>
+          </div>
+
+        </form>
+      </popover-content>
+      <!--update-section end-->
+
+      <ng-template [ngIf]="(Action)==(pd.userid)">
+        <button [popoverOnHover]="false" style="margin-top:50px; margin-right:10px;height:50px ;width:40px;" (click)="onClickUpdate(tweetid.value)" [popover]="myUpdate">
+          <i class="fa fa-edit" style="font-size: 25px; color: blue"></i>
+        </button>
+      </ng-template>
+    </div>
+  </div>
+
+</div>
+<!--*ngFor="let item of Userdata | filterpipe:Search:['firstName', 'lastName','email']; let i = index"-->

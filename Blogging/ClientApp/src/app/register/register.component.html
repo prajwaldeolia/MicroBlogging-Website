@@ -1,0 +1,62 @@
+
+<div class="main">
+  <h3> Create A New Account</h3>
+
+  <form novalidate #form="ngForm" (submit)="saveUser(form)">
+    <div class="mb-3 my-3">
+      <label class="fw-bolder text-capitalize my-2">Enter Email</label>
+      <input type="email" name="Email" (change)="setUserName(Email.value)" class="form-control " placeholder="Enter email" #Email="ngModel" [(ngModel)]="service.formData.Email" required [email]="true" />
+      <span *ngIf="Email && Email.invalid && Email.touched" class="error">Valid Email Required..!</span>
+    </div>
+    <div class="mb-3 my-3">
+      <label class="fw-bolder text-capitalize my-2">Enter New password</label>
+      <input type="password" name="Password"  pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$" class="form-control " placeholder="Enter Password" #Password="ngModel" [(ngModel)]="service.formData.Password" required />
+      <span *ngIf="Password && Password.invalid && Password.touched" class="error"> Minimum length must be 8 and it must have at-least 1 special character, 1 number and 1 alphabet each.</span>
+    </div>
+    <!--<div class="mb-3 my-3">
+    <label class="fw-bolder text-capitalize my-2">Confirm New password</label>
+    <input type="password" class="form-control " placeholder="Enter Password again" formControlName="confirm_password" />
+    <span *ngIf="confirm_password && confirm_password.invalid && confirm_password.touched" class="error">Password Required..!</span>
+  </div>-->
+
+    <div class="mb-3 my-3">
+      <label class="fw-bolder text-capitalize my-2">First Name</label>
+      <input type="text" name="FirstName" class="form-control " placeholder="Enter First Name " #FirstName="ngModel" [(ngModel)]="service.formData.FirstName" required />
+      <span *ngIf="FirstName && FirstName.invalid && FirstName.touched" class="error">First name Required</span>
+    </div>
+    <div class="mb-3 my-3">
+      <label class="fw-bolder text-capitalize my-2">Last Name</label>
+      <input type="text" name="LastName" class="form-control " placeholder="Enter Last Name " #LastName="ngModel" [(ngModel)]="service.formData.LastName" required />
+      <span *ngIf="Lastname && Lastname.invalid && Lastname.touched" class="error">Last name Required </span>
+    </div>
+    <div class="mb-3 my-3">
+      <label class="fw-bolder text-capitalize my-2">Contact No.</label>
+      <input type="number" name="ContactNo" class="form-control " placeholder="Enter Contact number " #ContactNo="ngModel" [(ngModel)]="service.formData.ContactNo" required />
+      <span *ngIf="ContactNo && ContactNo.invalid && ContactNo.touched" class="error">Contact Number Required </span>
+    </div>
+
+    <div class="mb-3 my-3">
+      <label class="fw-bolder text-capitalize my-2">Country</label>
+      <select class="form-control" name="Country" id="Country" #Country="ngModel" [(ngModel)]="service.formData.Country" required>
+        <option value="" disabled selected>Select Country</option>
+        <option *ngFor="let country of countries" [value]="country.name">{{country.name}}</option>
+      </select>
+
+    </div>
+    <div class="mb-3 my-3">
+      <app-upload (onUploadFinished)="uploadFinished($event)"></app-upload>
+
+    </div>
+    <input type="text" name="Fullname"  class="form-control" style="visibility:hidden" #Fullname="ngModel" [(ngModel)]="service.formData.FullName" />
+    <input type="text" class="form-control" style="visibility:hidden" name="ImgPath" #ImgPath="ngModel" [(ngModel)]="service.formData.ImgPath" value="{{path}}" />
+ 
+    <div class="text-center">
+      <button [disabled]="form.invalid" class="btn btn-primary fw-bolder px-4 py-2">Sign Up</button>
+    </div>
+  </form>
+  <div class="text-center">
+  <button (click)="resetForm(form)" class="btn btn-primary fw-bolder px-4 py-2">Clear</button>
+  <div>Already Registered?</div>
+  <button (click)="goToLogin()" class=" btn btn-primary">Login</button>
+   </div>
+</div>

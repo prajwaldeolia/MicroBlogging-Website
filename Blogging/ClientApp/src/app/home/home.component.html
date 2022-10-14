@@ -1,0 +1,43 @@
+
+<div class="main">
+  <img src="../../assets/01.png" class="text-center logo" alt="Logo" />
+  <div *ngIf="alert" class="alert alert-warning alert-dismissible fade show" role="alert">
+    <strong>WARNING ..!</strong> Wrong Credentials !
+    <button (click)="closeAlert()" type="button" class="fa fa-close"
+            style="font-size: 18px; color:red" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  <form [formGroup]="loginStudent">
+    <h3>Login</h3>
+    <div class="mb-3 my-3">
+      <label class="fw-bolder text-capitalize my-2">Email</label>
+      <input type="email" class="form-control " placeholder="Enter Email " formControlName="email" [email]="true" />
+      <span *ngIf=" email && email.invalid && email.touched" class="error">Enter Valid Email...!</span>
+    </div>
+    <div class="mb-3 my-3">
+      <label class="fw-bolder text-capitalize my-2">Password</label>
+      <input type="password" class="form-control " placeholder="Enter Password" formControlName="password" />
+      <span *ngIf=" password && password.invalid && password.touched" class="error">Password Required..!</span>
+    </div>
+
+    <div class="text-center">
+      <button (click)="loginUser()" [disabled]="loginStudent.invalid" class="btn btn-primary fw-bolder px-4 py-2">
+        Log In <div class="loader" *ngIf="round"></div>
+
+      </button>
+     
+      <button (click)="clearForm()" class="btn btn-primary fw-bolder px-4 py-2">
+        Clear
+      </button>
+    </div>
+    <div class="text-center my-2" style="border-radius:20px;">
+
+      <a routerLink="../register">
+        <button class=" btn btn-secondary my-3 fw-bolder px-4 py-2">
+
+          Create New Account
+        </button>
+      </a>
+    </div>
+  </form>
+</div>
+

@@ -1,0 +1,14 @@
+<app-nav-menu></app-nav-menu>
+<div class="container">
+<div class=" my-2" style=" display:inline-block; max-width: 20% ;margin-right:10%" *ngFor="let item of Userdata let i = index" >
+  <div class="text-center">
+    <img src="{{item.imgPath}}" alt="Userimage" width="80" height="100" />
+    <p style=" font-weight:bold">
+      {{item.firstName}} {{item.lastName}}
+    </p>
+  </div>
+  <div >
+    <button class="text-center" (click)="OnUnfollow(item.id)" style="margin-left:10%">UnFollow</button>
+  </div>
+</div>
+  </div>
